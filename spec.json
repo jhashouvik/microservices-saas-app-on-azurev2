@@ -1,0 +1,133 @@
+{
+  "title": "Microservices SaaS App on Azure",
+  "provider": "azure",
+  "direction": "LR",
+  "groups": [
+    {
+      "id": "vnet1",
+      "label": "VNet",
+      "parent": null
+    },
+    {
+      "id": "subnet1",
+      "label": "App Subnet",
+      "parent": "vnet1"
+    },
+    {
+      "id": "subnet2",
+      "label": "Data Subnet",
+      "parent": "vnet1"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "afd1",
+      "type": "cdn",
+      "label": "Azure Front Door",
+      "group": null,
+      "suggested_type": null,
+      "suggestion_reason": null
+    },
+    {
+      "id": "waf1",
+      "type": "firewall",
+      "label": "App Gateway WAF",
+      "group": null,
+      "suggested_type": null,
+      "suggestion_reason": null
+    },
+    {
+      "id": "container1",
+      "type": "compute.container",
+      "label": "Container Apps",
+      "group": "subnet1",
+      "suggested_type": null,
+      "suggestion_reason": null
+    },
+    {
+      "id": "sql1",
+      "type": "database.relational",
+      "label": "Azure SQL",
+      "group": "subnet2",
+      "suggested_type": null,
+      "suggestion_reason": null
+    },
+    {
+      "id": "redis1",
+      "type": "database.cache",
+      "label": "Cache for Redis",
+      "group": "subnet2",
+      "suggested_type": null,
+      "suggestion_reason": null
+    },
+    {
+      "id": "bus1",
+      "type": "queue",
+      "label": "Service Bus",
+      "group": null,
+      "suggested_type": null,
+      "suggestion_reason": null
+    },
+    {
+      "id": "blob1",
+      "type": "storage.object",
+      "label": "Blob Storage",
+      "group": null,
+      "suggested_type": null,
+      "suggestion_reason": null
+    },
+    {
+      "id": "vault1",
+      "type": "secrets",
+      "label": "Key Vault",
+      "group": null,
+      "suggested_type": null,
+      "suggestion_reason": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "afd1",
+      "target": "waf1",
+      "label": "HTTPS",
+      "style": "solid"
+    },
+    {
+      "source": "waf1",
+      "target": "container1",
+      "label": "HTTPS",
+      "style": "solid"
+    },
+    {
+      "source": "container1",
+      "target": "sql1",
+      "label": "SQL Queries",
+      "style": "solid"
+    },
+    {
+      "source": "container1",
+      "target": "redis1",
+      "label": "Cache Access",
+      "style": "solid"
+    },
+    {
+      "source": "container1",
+      "target": "bus1",
+      "label": "Messages",
+      "style": "solid"
+    },
+    {
+      "source": "container1",
+      "target": "blob1",
+      "label": "File Storage",
+      "style": "solid"
+    },
+    {
+      "source": "container1",
+      "target": "vault1",
+      "label": "Secrets Access",
+      "style": "solid"
+    }
+  ],
+  "show_legend": true
+}
